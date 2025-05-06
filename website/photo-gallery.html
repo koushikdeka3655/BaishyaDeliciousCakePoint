@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo & Gallery - Baishya Delicious Cake Point</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Baishya Delicious Cake Point</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="photo-gallery.html" class="active">Photo & Gallery</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="customer-feedback.html">Feedback</a>
+    </nav>
+  </header>
+
+  <section id="photo-gallery">
+    <h2>Photo & Gallery</h2>
+    <button onclick="location.href='login.html'" style="margin-bottom: 20px; padding: 10px 20px; background-color: #7b3f00; color: white; border: none; border-radius: 8px; cursor: pointer;">Upload Photos</button>
+    <button onclick="location.href='login.html?action=delete'" style="margin-bottom: 20px; margin-left: 10px; padding: 10px 20px; background-color: #b32e2e; color: white; border: none; border-radius: 8px; cursor: pointer;">Delete Photos</button>
+    <div class="gallery-container">
+    </div>
+  </section>
+
+  <script>
+    // On page load, render photos from localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const galleryContainer = document.querySelector('.gallery-container');
+      let photos = JSON.parse(localStorage.getItem('photos'));
+      if (!photos) {
+        // Initialize photos with default images if not present
+        photos = [
+          "images/1 (1).jpeg", "images/1 (2).jpeg", "images/1 (3).jpeg", "images/1 (4).jpeg",
+          "images/1 (5).jpeg", "images/1 (6).jpeg", "images/1 (7).jpeg", "images/1 (8).jpeg",
+          "images/1 (9).jpeg", "images/1 (10).jpeg", "images/1 (11).jpeg", "images/1 (12).jpeg",
+          "images/1 (13).jpeg", "images/1 (14).jpeg", "images/1 (15).jpeg", "images/1 (16).jpeg",
+          "images/1 (17).jpeg", "images/1 (18).jpeg", "images/1 (19).jpeg", "images/1 (20).jpeg",
+          "images/1 (21).jpeg", "images/1 (22).jpeg", "images/1 (23).jpeg", "images/1 (24).jpeg",
+          "images/1 (25).jpeg", "images/1 (26).jpeg", "images/1 (27).jpeg", "images/1 (28).jpeg"
+        ];
+        localStorage.setItem('photos', JSON.stringify(photos));
+      }
+      galleryContainer.innerHTML = '';
+      photos.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = 'Gallery Image';
+        galleryContainer.appendChild(img);
+      });
+    });
+  </script>
+
+  <footer>
+    <p>©Baishya delicious cake point 2025</p>
+  </footer>
+
+  <div id="feedback-bottom-bar">
+    <p>Have feedback? <a href="customer-feedback.html" target="_blank" rel="noopener noreferrer">Click here to share your thoughts!</a></p>
+  </div>
+</body>
+</html>

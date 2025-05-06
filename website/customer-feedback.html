@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Feedback - Baishya Delicious Cake Point</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Baishya Delicious Cake Point</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="photo-gallery.html">Photo & Gallery</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="customer-feedback.html" class="active">Feedback</a>
+    </nav>
+  </header>
+
+  <section id="customer-feedback">
+    <h2>Customer Feedback</h2>
+    <p>We value your feedback! Please fill out the form below to help us improve our service.</p>
+    <form id="feedback-form" action="#" method="POST" style="max-width: 600px; margin: auto;">
+      <label for="name">Name:</label><br />
+      <input type="text" id="name" name="name" placeholder="Your name" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #7b3f00; margin-bottom: 15px;" /><br />
+
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" placeholder="Your email" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #7b3f00; margin-bottom: 15px;" /><br />
+
+      <label for="rating">Rating:</label><br />
+      <select id="rating" name="rating" required style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #7b3f00; margin-bottom: 15px;">
+        <option value="" disabled selected>Select rating</option>
+        <option value="5">5 - Excellent</option>
+        <option value="4">4 - Very good</option>
+        <option value="3">3 - Good</option>
+        <option value="2">2 - Fair</option>
+        <option value="1">1 - Poor</option>
+      </select><br />
+
+      <label for="comments">Comments:</label><br />
+      <textarea id="comments" name="comments" rows="5" placeholder="Your comments or suggestions" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #7b3f00; margin-bottom: 15px;"></textarea><br />
+
+      <button type="submit" class="order-btn">Submit Feedback</button>
+    </form>
+
+    <button id="show-feedback-btn" style="display: block; margin: 20px auto; padding: 10px 20px; background-color: #4b2e83; color: white; border: none; border-radius: 8px; cursor: pointer;">Show Feedback</button>
+    <div id="feedback-display" style="display: none; max-width: 600px; margin: 20px auto; border: 1px solid #7b3f00; border-radius: 8px; padding: 10px; background: #fff; max-height: 300px; overflow-y: auto;"></div>
+
+    <script>
+      const form = document.getElementById('feedback-form');
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const rating = document.getElementById('rating').value;
+        const comments = document.getElementById('comments').value.trim();
+
+        if (!name || !email || !rating) {
+          alert('Please fill in all required fields.');
+          return;
+        }
+
+        const feedback = { name, email, rating, comments };
+        let feedbacks = JSON.parse(localStorage.getItem('customerFeedbacks') || '[]');
+        feedbacks.push(feedback);
+        localStorage.setItem('customerFeedbacks', JSON.stringify(feedbacks));
+
+        // Redirect to feedback submitted page
+        window.open('feedback-submitted.html', '_blank');
+        form.reset();
+      });
+
+      // Show feedback button and display logic for visitors
+      const showFeedbackBtn = document.getElementById('show-feedback-btn');
+      const feedbackDisplay = document.getElementById('feedback-display');
+
+      showFeedbackBtn.addEventListener('click', () => {
+        if (feedbackDisplay.style.display === 'none') {
+          const feedbacks = JSON.parse(localStorage.getItem('customerFeedbacks') || '[]');
+          if (feedbacks.length === 0) {
+            feedbackDisplay.innerHTML = '<p>No feedback available.</p>';
+          } else {
+            feedbackDisplay.innerHTML = '';
+            feedbacks.forEach(fb => {
+              const fbDiv = document.createElement('div');
+              fbDiv.style.borderBottom = '1px solid #7b3f00';
+              fbDiv.style.padding = '8px 0';
+              fbDiv.innerHTML = `
+                <p><strong>Name:</strong> ${fb.name}</p>
+                <p><strong>Email:</strong> ${fb.email}</p>
+                <p><strong>Rating:</strong> ${fb.rating}</p>
+                <p><strong>Comments:</strong> ${fb.comments ? fb.comments : 'No comments'}</p>
+              `;
+              feedbackDisplay.appendChild(fbDiv);
+            });
+          }
+          feedbackDisplay.style.display = 'block';
+          showFeedbackBtn.textContent = 'Hide Feedback';
+        } else {
+          feedbackDisplay.style.display = 'none';
+          showFeedbackBtn.textContent = 'Show Feedback';
+        }
+      });
+    </script>
+  </section>
+
+  <footer>
+    <p>©Baishya delicious cake point 2025</p>
+  </footer>
+</body>
+</html>

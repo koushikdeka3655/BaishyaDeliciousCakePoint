@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback Submitted - Baishya Delicious Cake Point</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #feedback-list {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #fff8f0;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(123, 63, 0, 0.2);
+    }
+    .feedback-item {
+      border-bottom: 1px solid #7b3f00;
+      padding: 10px 0;
+    }
+    .feedback-item:last-child {
+      border-bottom: none;
+    }
+    .feedback-name {
+      font-weight: 700;
+      color: #5a2e00;
+    }
+    .feedback-rating {
+      font-weight: 600;
+      color: #7b3f00;
+    }
+    .feedback-comments {
+      margin-top: 5px;
+      font-style: italic;
+      color: #4b2e83;
+    }
+    #thank-you {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #7b3f00;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Baishya Delicious Cake Point</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="photo-gallery.html">Photo & Gallery</a>
+      <a href="menu.html">Menu</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="customer-feedback.html">Feedback</a>
+    </nav>
+  </header>
+
+  <section id="feedback-submitted">
+    <h2>Thank you for your feedback!</h2>
+    <p id="thank-you">Your feedback has been submitted successfully.</p>
+    <h3>Customer Feedbacks</h3>
+    <div id="feedback-list"></div>
+  </section>
+
+  <footer>
+    <p>©Baishya delicious cake point 2025</p>
+  </footer>
+
+  <script>
+    function loadFeedbacks() {
+      const feedbacks = JSON.parse(localStorage.getItem('customerFeedbacks') || '[]');
+      const feedbackList = document.getElementById('feedback-list');
+      feedbackList.innerHTML = '';
+      if (feedbacks.length === 0) {
+        feedbackList.innerHTML = '<p>No feedbacks yet.</p>';
+        return;
+      }
+      feedbacks.forEach(fb => {
+        const div = document.createElement('div');
+        div.className = 'feedback-item';
+        div.innerHTML = `
+          <div class="feedback-name">${fb.name} (${fb.email})</div>
+          <div class="feedback-rating">Rating: ${fb.rating}</div>
+          <div class="feedback-comments">${fb.comments ? fb.comments : ''}</div>
+        `;
+        feedbackList.appendChild(div);
+      });
+    }
+    loadFeedbacks();
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Upload - Baishya Delicious Cake Point</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #fff0f5;
+      color: #4b2e83;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      font-family: 'Georgia', serif;
+      margin-bottom: 20px;
+    }
+    .upload-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 15px rgba(123, 63, 0, 0.2);
+    }
+    input[type="file"] {
+      display: block;
+      margin-bottom: 20px;
+    }
+    .gallery-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+    .gallery-container img {
+      width: 15%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(123, 63, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-container">
+    <h2>Upload Photos</h2>
+    <input type="file" id="file-input" multiple accept="image/*" />
+    <button id="submit-button" style="padding: 10px 20px; background-color: #7b3f00; color: white; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 20px;">Submit</button>
+    <div class="gallery-container" id="preview-gallery"></div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const previewGallery = document.getElementById('preview-gallery');
+    const submitButton = document.getElementById('submit-button');
+
+    fileInput.addEventListener('change', () => {
+      previewGallery.innerHTML = '';
+      const files = fileInput.files;
+      if (files.length === 0) {
+        return;
+      }
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = file.name;
+          previewGallery.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    submitButton.addEventListener('click', () => {
+      const files = fileInput.files;
+      if (files.length === 0) {
+        alert('Please select at least one photo to submit.');
+        return;
+      }
+
+      // Read existing photos array from localStorage or initialize empty
+      const photos = JSON.parse(localStorage.getItem('photos') || '[]');
+
+      let filesProcessed = 0;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          photos.push(e.target.result);
+          filesProcessed++;
+          if (filesProcessed === files.length) {
+            // Save updated photos array to localStorage
+            localStorage.setItem('photos', JSON.stringify(photos));
+            alert('Photos submitted successfully! They will appear in the photo gallery and delete section.');
+            // Clear input and preview
+            fileInput.value = '';
+            previewGallery.innerHTML = '';
+            // Redirect to admin-delete.html to show delete section
+            window.location.href = 'admin-delete.html';
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+
+  <div id="feedback-bottom-bar">
+    <p>Have feedback? <a href="customer-feedback.html" target="_blank" rel="noopener noreferrer">Click here to share your thoughts!</a></p>
+  </div>
+</body>

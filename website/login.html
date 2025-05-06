@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login - Baishya Delicious Cake Point</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #fff0f5;
+      color: #4b2e83;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .login-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 15px rgba(123, 63, 0, 0.2);
+      width: 300px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-family: 'Georgia', serif;
+    }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px 0;
+      border: 1px solid #7b3f00;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #7b3f00;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #a05a00;
+    }
+    .error {
+      color: red;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Admin Login</h2>
+    <div id="error-msg" class="error"></div>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMsg = document.getElementById('error-msg');
+
+      if (username === 'Abhijit' && password === 'Abhijit') {
+        // Check URL parameter to decide redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+        if (action === 'delete') {
+          window.location.href = 'admin-delete.html';
+        } else if (action === 'menu') {
+          window.location.href = 'admin-menu.html';
+        } else {
+          window.location.href = 'admin-upload.html';
+        }
+      } else {
+        errorMsg.textContent = 'Invalid username or password';
+      }
+    }
+  </script>
+
+  <div id="feedback-bottom-bar">
+    <p>Have feedback? <a href="customer-feedback.html" target="_blank" rel="noopener noreferrer">Click here to share your thoughts!</a></p>
+  </div>
+</body>
+</html>
